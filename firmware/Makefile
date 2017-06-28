@@ -29,7 +29,7 @@ TARGET = keypad-firmware
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = src/main.c
+SRC = src/usb_rawhid.c src/main.c
 
 
 #MCU = at90usb162       # Teensy 1.0
@@ -87,7 +87,7 @@ DEBUG = dwarf-2
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS = 
+EXTRAINCDIRS = include
 
 
 # Compiler flag to set the C Standard level.
