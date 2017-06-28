@@ -12,6 +12,9 @@
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
 
+#include "key.h"
+#include "keypad.h"
+
 
 int main(void)
 {
