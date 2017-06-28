@@ -112,7 +112,6 @@ CPPDEFS = -DF_CPU=$(F_CPU)UL
 #CPPDEFS += -D__STDC_CONSTANT_MACROS
 
 
-
 #---------------- Compiler Options C ----------------
 #  -g*:          generate debugging information
 #  -O*:          optimization level
@@ -214,7 +213,6 @@ MATH_LIB =
 EXTRALIBDIRS = 
 
 
-
 #---------------- External Memory Options ----------------
 
 # 64 KB of external RAM, starting after internal RAM (ATmega128!),
@@ -228,7 +226,6 @@ EXTRALIBDIRS =
 EXTMEMOPTS =
 
 
-
 #---------------- Linker Options ----------------
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
@@ -240,7 +237,6 @@ LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #LDFLAGS += -T linker_script.x
-
 
 
 #---------------- Programming Options (avrdude) ----------------
@@ -278,7 +274,6 @@ AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
 
 
-
 #---------------- Debugging Options ----------------
 
 # For simulavr only - target MCU frequency.
@@ -305,7 +300,6 @@ DEBUG_PORT = 4242
 #     just set to localhost unless doing some sort of crazy debugging when 
 #     avarice is running on a different computer.
 DEBUG_HOST = localhost
-
 
 
 #============================================================================
@@ -347,14 +341,11 @@ MSG_CLEANING = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
 
 
-
-
 # Define all object files.
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o) $(CPPSRC:%.cpp=$(OBJDIR)/%.o) $(ASRC:%.S=$(OBJDIR)/%.o) 
 
 # Define all listing files.
 LST = $(SRC:%.c=$(OBJDIR)/%.lst) $(CPPSRC:%.cpp=$(OBJDIR)/%.lst) $(ASRC:%.S=$(OBJDIR)/%.lst) 
-
 
 # Compiler flags to generate dependency files.
 GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
@@ -365,9 +356,6 @@ GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
-
-
-
 
 
 # Default target.
@@ -385,7 +373,6 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 LIBNAME=lib$(TARGET).a
 lib: $(LIBNAME)
-
 
 
 # Eye candy.
@@ -414,11 +401,9 @@ sizeafter:
 	2>/dev/null; echo; fi
 
 
-
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
-
 
 
 # Program the device.  
@@ -498,7 +483,6 @@ extcoff: $(TARGET).elf
 	@echo
 	@echo $(MSG_SYMBOL_TABLE) $@
 	$(NM) -n $< > $@
-
 
 
 # Create library from object files.
