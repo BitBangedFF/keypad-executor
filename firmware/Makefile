@@ -423,7 +423,7 @@ gccversion :
 
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+	teensy_loader_cli --mcu=$(MCU) -v -w $(TARGET).hex
 
 
 # Generate avr-gdb config/init file which does the following:
