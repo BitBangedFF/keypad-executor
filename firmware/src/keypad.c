@@ -14,9 +14,6 @@
 #include "keypad.h"
 
 
-#define HIGH (1)
-#define LOW (0)
-
 #define NUM_ROWS (4)
 #define NUM_COLS (3)
 
