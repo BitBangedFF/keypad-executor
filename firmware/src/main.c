@@ -22,6 +22,8 @@ int main(void)
 {
     keypad_s keypad;
 
+    wdt_disable();
+
     led_init();
     led_on();
 

@@ -31,6 +31,8 @@
 #define bit_write(c,p,m) (c ? bit_set(p,m) : bit_clear(p,m))
 #define BIT(x) (0x01 << (x))
 
+#define CPU_16MHZ (0x00)
+
 #define CPU_PRESCALE(n) {CLKPR = 0x80; CLKPR = (n);}
 
 #define hard_reset() {WDTCR |= 1<<WDE;  while(1);}

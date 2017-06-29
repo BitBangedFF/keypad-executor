@@ -26,7 +26,7 @@
 #define timer8_clear_compare_a_it() (TIFR0 |= BIT(OCF0A))
 
 
-static uint32_t global_counter_ms;
+static volatile uint32_t global_counter_ms;
 
 
 ISR(TIMER0_COMPA_vect)
@@ -45,8 +45,7 @@ void time_init(void)
 {
     disable_interrupt();
 
-    // set for 16 MHz clock
-    CPU_PRESCALE(0);
+    CPU_PRESCALE(CPU_16MHZ);
 
     timer8_clear();
 
@@ -63,9 +62,9 @@ void time_init(void)
     timer8_set_counter(0);
     timer8_set_compare_a(0xFA);
 
-    timer8_compare_a_it_enable();
     timer8_clear_overflow_it();
     timer8_clear_compare_a_it();
+    timer8_compare_a_it_enable();
 
     global_counter_ms = 0;
 
