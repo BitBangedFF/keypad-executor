@@ -12,12 +12,28 @@
 #include <avr/wdt.h>
 #include <avr/pgmspace.h>
 
+#include "board.h"
+#include "time.h"
 #include "key.h"
 #include "keypad.h"
 
 
 int main(void)
 {
+    keypad_s keypad;
+
+    led_init();
+    led_on();
+
+    time_init();
+
+    enable_interrupt();
+
+    while(1)
+    {
+        //time_delay_ms(500);
+        //led_toggle();
+    }
 
     return 0;
 }
