@@ -32,11 +32,37 @@ static volatile uint32_t global_counter_ms;
 ISR(TIMER0_COMPA_vect)
 {
     global_counter_ms += 1;
+}
 
-    if(global_counter_ms >= 500)
+
+static void delay_ms(
+        const uint16_t ms)
+{
+    uint8_t done;
+    int32_t time;
+
+    disable_interrupt();
+    time = global_counter_ms;
+    enable_interrupt();
+
+    time += (uint32_t) ms;
+    done = 0;
+
+    while(done == 0)
     {
-        global_counter_ms = 0;
-        led_toggle();
+        disable_interrupt();
+
+        if(global_counter_ms == time)
+        {
+            done = 1;
+        }
+        else if(global_counter_ms == (uint32_t) ms)
+        {
+            // bad overflow detection
+            done = 1;
+        }
+
+        enable_interrupt();
     }
 }
 
@@ -66,6 +92,8 @@ void time_init(void)
     timer8_clear_compare_a_it();
     timer8_compare_a_it_enable();
 
+    for(i = 0; i < 0xFFFF; i += 1);
+
     global_counter_ms = 0;
 
     enable_interrupt();
@@ -73,11 +101,11 @@ void time_init(void)
 
 
 void time_delay_ms(
-        const uint32_t ms)
+        const uint16_t ms)
 {
     if(ms != 0)
     {
-        asm("nop");
+        delay_ms(ms);
     }
 }
 

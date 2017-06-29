@@ -16,7 +16,7 @@ void time_init(void);
 
 
 void time_delay_ms(
-        const uint32_t ms);
+        const uint16_t ms);
 
 
 uint32_t time_get_ms(void);

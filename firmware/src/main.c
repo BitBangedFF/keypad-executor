@@ -33,8 +33,8 @@ int main(void)
 
     while(1)
     {
-        //time_delay_ms(500);
-        //led_toggle();
+        time_delay_ms(500);
+        led_toggle();
     }
 
     return 0;
