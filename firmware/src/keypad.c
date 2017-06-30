@@ -90,7 +90,7 @@ static uint8_t pin_read(
 
 
 static uint8_t find_in_list(
-        const uint8_t kchar,
+        const uint8_t kcode,
         keypad_s * const keypad)
 {
     uint8_t ret = KEY_CODE_INVALID;
@@ -98,7 +98,7 @@ static uint8_t find_in_list(
     uint8_t idx;
     for(idx = 0; (idx < KEYPAD_LIST_MAX) && (ret == KEY_CODE_INVALID); idx += 1)
     {
-        if(keypad->keys[idx].kchar == kchar)
+        if(keypad->keys[idx].kcode == kcode)
         {
             ret = idx;
         }
@@ -177,10 +177,11 @@ static void scan_keys(
 
         for(row = 0; row < keypad->size.rows; row += 1)
         {
-           bit_write(
-                   !pin_read(ROW_PINS[row]),
-                   keypad->bit_map[row],
-                   BIT(col));
+            // active low
+            bit_write(
+                    !pin_read(ROW_PINS[row]),
+                    keypad->bit_map[row],
+                    BIT(col));
         }
 
         pin_output(COL_PINS[col], HIGH);
@@ -223,7 +224,7 @@ static uint8_t update_list(
             {
                 next_key_state(k_idx, btn_pressed, keypad);
             }
-            else if((idx == KEY_CODE_INVALID) && (btn_pressed == TRUE))
+            else if((k_idx == KEY_CODE_INVALID) && (btn_pressed == TRUE))
             {
                 for(idx = 0; idx < KEYPAD_LIST_MAX; idx += 1)
                 {
@@ -279,7 +280,7 @@ void keypad_init(
 uint8_t keypad_get_keys(
         keypad_s * const keypad)
 {
-    uint8_t activity = 0;
+    uint8_t activity = FALSE;
 
     const uint32_t delta = (time_get_ms() - keypad->start_time);
 
