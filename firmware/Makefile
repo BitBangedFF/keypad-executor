@@ -30,6 +30,7 @@ TARGET = keypad-firmware
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = src/usb_rawhid.c \
+	  src/buzzer.c \
 	  src/protocol.c \
 	  src/transport.c \
 	  src/time.c \

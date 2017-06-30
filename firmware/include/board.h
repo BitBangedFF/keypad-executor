@@ -45,6 +45,11 @@
 #define LED_PORT PORTD
 #define LED_BIT (6)
 
+#define BUZZER_PIN PIND
+#define BUZZER_DDR DDRD
+#define BUZZER_PORT PORTD
+#define BUZZER_BIT (7)
+
 #define led_init() bit_set(LED_DDR, BIT(LED_BIT))
 #define led_on() bit_set(LED_PORT, BIT(LED_BIT))
 #define led_off() bit_clear(LED_PORT, BIT(LED_BIT))
