@@ -32,10 +32,8 @@ TARGET = keypad-firmware
 SRC = src/usb_rawhid.c src/time.c src/key.c src/keypad.c src/main.c
 
 
-#MCU = at90usb162       # Teensy 1.0
-#MCU = atmega32u4        # Teensy 2.0
-#MCU = at90usb646       # Teensy++ 1.0
-MCU = at90usb1286      # Teensy++ 2.0
+# Teensy++ 2.0
+MCU = at90usb1286
 
 
 # Processor frequency.

@@ -136,7 +136,7 @@ static void next_key_state(
     else if(keypad->keys[idx].state == KEY_STATE_PRESSED)
     {
         const uint32_t delta = (time_get_ms() - keypad->hold_timer);
-        
+
         if(delta > keypad->hold_time)
         {
             transition_to(idx, KEY_STATE_HOLD, keypad);
@@ -271,7 +271,7 @@ void keypad_init(
 
     uint8_t idx;
     for(idx = 0; idx < KEYPAD_LIST_MAX; idx += 1)
-    {   
+    {
         key_new(&keypad->keys[idx]);
     }
 }
@@ -292,4 +292,24 @@ uint8_t keypad_get_keys(
     }
 
     return activity;
+}
+
+
+uint8_t keypad_get_key(
+        keypad_s * const keypad)
+{
+    uint8_t key = (uint8_t) KEY_NONE;
+
+    if(keypad_get_keys(keypad) == TRUE)
+    {
+        if(keypad->keys[0].state_changed != FALSE)
+        {
+            if(keypad->keys[0].state == KEY_STATE_PRESSED)
+            {
+                key = (uint8_t) keypad->keys[0].kchar;
+            }
+        }
+    }
+
+    return key;
 }

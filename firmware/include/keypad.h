@@ -46,4 +46,8 @@ uint8_t keypad_get_keys(
         keypad_s * const keypad);
 
 
+uint8_t keypad_get_key(
+        keypad_s * const keypad);
+
+
 #endif  /* KEYPAD_H */
