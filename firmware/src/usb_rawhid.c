@@ -107,7 +107,7 @@ static const uint8_t PROGMEM device_descriptor[] = {
 	0x00, 0x01,				// bcdDevice
 	1,					// iManufacturer
 	2,					// iProduct
-	0,					// iSerialNumber
+	1,					// iSerialNumber
 	1					// bNumConfigurations
 };
 
