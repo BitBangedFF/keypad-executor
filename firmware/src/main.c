@@ -25,16 +25,23 @@ int main(void)
     wdt_disable();
 
     led_init();
-    led_on();
+    led_off();
 
     time_init();
 
     enable_interrupt();
 
+    keypad_init(&keypad);
+
     while(1)
     {
-        time_delay_ms(500);
-        led_toggle();
+        const uint8_t activity = keypad_get_keys(&keypad);
+
+        if(activity != FALSE)
+        {
+            //led_toggle();
+            led_on();
+        }
     }
 
     return 0;

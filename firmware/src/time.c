@@ -39,7 +39,7 @@ static void delay_ms(
         const uint16_t ms)
 {
     uint8_t done;
-    int32_t time;
+    uint32_t time;
 
     disable_interrupt();
     time = global_counter_ms;

@@ -29,7 +29,10 @@ typedef struct
 {
     const char *key_map;
     keypad_size_s size;
-    uint8_t single_key;
+    uint32_t debounce_time;
+    uint32_t hold_time;
+    uint32_t hold_timer;
+    uint32_t start_time;
     uint16_t bit_map[KEYPAD_MAP_LEN];
     key_s keys[KEYPAD_LIST_MAX];
 } keypad_s;
