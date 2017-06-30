@@ -29,7 +29,7 @@ TARGET = keypad-firmware
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = src/usb_rawhid.c src/time.c src/key.c src/keypad.c src/main.c
+SRC = src/usb_rawhid.c src/transport.c src/time.c src/key.c src/keypad.c src/main.c
 
 
 # Teensy++ 2.0
