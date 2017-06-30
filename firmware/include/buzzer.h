@@ -13,6 +13,7 @@ typedef enum
 {
     BUZZER_SOUND_OFF = 0,
     BUZZER_SOUND_ON,
+    BUZZER_SOUND_ERROR,
     BUZZER_SOUND_SHORT_ONOFF,
     BUZZER_SOUND_LONG_ONOFF
 } buzzer_sound_kind;

@@ -11,6 +11,7 @@
 #include <avr/io.h>
 
 #include "board.h"
+#include "time.h"
 #include "buzzer.h"
 
 
@@ -30,5 +31,36 @@ void buzzer_init(void)
 void buzzer_sound(
         const buzzer_sound_kind sound)
 {
-
+    if(sound == BUZZER_SOUND_OFF)
+    {
+        hw_off();
+    }
+    else if(sound == BUZZER_SOUND_ON)
+    {
+        hw_on();
+    }
+    else if(sound == BUZZER_SOUND_ERROR)
+    {
+        uint8_t i;
+        for(i = 0; i < 3; i += 1)
+        {
+            hw_on();
+            time_delay_ms(100);
+            hw_off();
+            time_delay_ms(100);
+        }
+        hw_off();
+    }
+    else if(sound == BUZZER_SOUND_SHORT_ONOFF)
+    {
+        hw_on();
+        time_delay_ms(200);
+        hw_off();
+    }
+    else if(sound == BUZZER_SOUND_LONG_ONOFF)
+    {
+        hw_on();
+        time_delay_ms(800);
+        hw_off();
+    }
 }

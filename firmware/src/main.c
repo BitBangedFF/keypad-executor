@@ -55,7 +55,6 @@ static void on_key(
 
     if(msg->key_cnt == 1)
     {
-        buzzer_sound(BUZZER_SOUND_SHORT_ONOFF);
         msg->start_time = msg->end_time;
     }
 
@@ -79,6 +78,10 @@ static void on_key(
     {
         buzzer_sound(BUZZER_SOUND_ERROR);
         init_msg(msg->error_cnt, msg);
+    }
+    else
+    {
+        buzzer_sound(BUZZER_SOUND_SHORT_ONOFF);
     }
 
     if(msg->key_cnt >= PROTO_KEYS_MAX)
