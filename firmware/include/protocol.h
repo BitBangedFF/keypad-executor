@@ -34,4 +34,8 @@ typedef struct __attribute__((packed))
 } proto_msg_s;
 
 
+uint16_t protocol_crc16(
+        const proto_msg_s * const msg);
+
+
 #endif  /* PROTOCOL_H */

@@ -23,10 +23,6 @@ void transport_init(void);
 uint8_t transport_ready(void);
 
 
-uint16_t transport_crc16(
-        const proto_msg_s * const msg);
-
-
 uint8_t transport_send(
         const proto_msg_s * const msg);
 

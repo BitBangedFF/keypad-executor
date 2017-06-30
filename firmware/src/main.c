@@ -61,7 +61,7 @@ static void on_key(
     {
         if(msg->key_cnt > 1)
         {
-            msg->checksum = transport_crc16(msg);
+            msg->checksum = protocol_crc16(msg);
         
             if(transport_send(msg) != 0)
             {
