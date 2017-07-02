@@ -21,6 +21,9 @@
 #include "transport.h"
 
 
+#define NO_ACTIVITY_RESET_MS (10000UL)
+
+
 static void wait_for_transport(void)
 {
     time_delay_ms(1000);
@@ -45,6 +48,24 @@ static void init_msg(
 }
 
 
+static void no_activity_reset(
+        proto_msg_s * const msg)
+{
+    if(msg->start_time != 0)
+    {
+        const uint32_t now = time_get_ms();
+
+        const uint32_t diff = (now - msg->start_time);
+
+        if(diff > NO_ACTIVITY_RESET_MS)
+        {
+            buzzer_sound(BUZZER_SOUND_ERROR);
+            init_msg(msg->error_cnt, msg);
+        }
+    }
+}
+
+
 static void on_key(
         const uint8_t key,
         proto_msg_s * const msg)
@@ -63,7 +84,7 @@ static void on_key(
         if(msg->key_cnt > 1)
         {
             msg->checksum = protocol_crc16(msg);
-        
+
             if(transport_send(msg) != 0)
             {
                 msg->error_cnt += 1;
@@ -123,6 +144,13 @@ int main(void)
         if(key != (uint8_t) KEY_NONE)
         {
             on_key(key, &msg);
+        }
+        
+        if(time_get_timer() == TRUE)
+        {
+            time_clear_timer();
+
+            no_activity_reset(&msg);
         }
     }
 

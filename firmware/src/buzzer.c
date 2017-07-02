@@ -44,10 +44,12 @@ void buzzer_sound(
     if(sound == BUZZER_SOUND_OFF)
     {
         hw_off();
+        led_off();
     }
     else if(sound == BUZZER_SOUND_ON)
     {
         hw_on();
+        led_on();
     }
     else if(sound == BUZZER_SOUND_ERROR)
     {
@@ -55,22 +57,29 @@ void buzzer_sound(
         for(i = 0; i < 3; i += 1)
         {
             hw_on();
+            led_on();
             time_delay_ms(100);
             hw_off();
+            led_off();
             time_delay_ms(100);
         }
         hw_off();
+        led_off();
     }
     else if(sound == BUZZER_SOUND_SHORT_ONOFF)
     {
         hw_on();
+        led_on();
         time_delay_ms(200);
         hw_off();
+        led_off();
     }
     else if(sound == BUZZER_SOUND_LONG_ONOFF)
     {
         hw_on();
+        led_on();
         time_delay_ms(800);
         hw_off();
+        led_off();
     }
 }

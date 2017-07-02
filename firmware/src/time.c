@@ -27,11 +27,17 @@
 
 
 static volatile uint32_t global_counter_ms;
+static volatile uint8_t global_timer_signal;
 
 
 ISR(TIMER0_COMPA_vect)
 {
     global_counter_ms += 1;
+
+    if(global_counter_ms >= TIME_SIGNAL_INTERVAL_MS)
+    {
+        global_timer_signal = TRUE;
+    }
 }
 
 
@@ -95,6 +101,7 @@ void time_init(void)
     for(i = 0; i < 0xFFFF; i += 1);
 
     global_counter_ms = 0;
+    global_timer_signal = FALSE;
 
     enable_interrupt();
 }
@@ -117,4 +124,22 @@ uint32_t time_get_ms(void)
     enable_interrupt();
 
     return timestamp;
+}
+
+
+uint8_t time_get_timer(void)
+{
+    disable_interrupt();
+    const uint8_t timer = global_timer_signal;
+    enable_interrupt();
+
+    return timer;
+}
+
+
+void time_clear_timer(void)
+{
+    disable_interrupt();
+    global_timer_signal = FALSE;
+    enable_interrupt();
 }
