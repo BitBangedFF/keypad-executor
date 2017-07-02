@@ -15,10 +15,20 @@
 #include "buzzer.h"
 
 
+#define BUZZER_OFF (1)
+
 #define hw_init() bit_set(BUZZER_DDR, BIT(BUZZER_BIT))
+
+#ifdef BUZZER_OFF
+#warning "buzzer is disabled"
+#define hw_on() bit_set(BUZZER_PORT, BIT(BUZZER_BIT))
+#define hw_off() bit_set(BUZZER_PORT, BIT(BUZZER_BIT))
+#define hw_toggle() bit_set(BUZZER_PORT, BIT(BUZZER_BIT))
+#else
 #define hw_on() bit_clear(BUZZER_PORT, BIT(BUZZER_BIT))
 #define hw_off() bit_set(BUZZER_PORT, BIT(BUZZER_BIT))
 #define hw_toggle() bit_flip(BUZZER_PORT, BIT(BUZZER_BIT))
+#endif
 
 
 void buzzer_init(void)
