@@ -29,13 +29,18 @@ TARGET = keypad-firmware
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = src/main.c
+SRC = src/usb_rawhid.c \
+	  src/buzzer.c \
+	  src/protocol.c \
+	  src/transport.c \
+	  src/time.c \
+	  src/key.c \
+	  src/keypad.c \
+	  src/main.c
 
 
-#MCU = at90usb162       # Teensy 1.0
-#MCU = atmega32u4        # Teensy 2.0
-#MCU = at90usb646       # Teensy++ 1.0
-MCU = at90usb1286      # Teensy++ 2.0
+# Teensy++ 2.0
+MCU = at90usb1286
 
 
 # Processor frequency.
@@ -73,7 +78,7 @@ ASRC =
 # Optimization level, can be [0, 1, 2, 3, s]. 
 #     0 = turn off optimization. s = optimize for size.
 #     (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
-OPT = 0
+OPT = s
 
 
 # Debugging format.
@@ -87,7 +92,7 @@ DEBUG = dwarf-2
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS = 
+EXTRAINCDIRS = include
 
 
 # Compiler flag to set the C Standard level.
@@ -110,7 +115,6 @@ ADEFS = -DF_CPU=$(F_CPU)
 CPPDEFS = -DF_CPU=$(F_CPU)UL
 #CPPDEFS += -D__STDC_LIMIT_MACROS
 #CPPDEFS += -D__STDC_CONSTANT_MACROS
-
 
 
 #---------------- Compiler Options C ----------------
@@ -214,7 +218,6 @@ MATH_LIB =
 EXTRALIBDIRS = 
 
 
-
 #---------------- External Memory Options ----------------
 
 # 64 KB of external RAM, starting after internal RAM (ATmega128!),
@@ -228,7 +231,6 @@ EXTRALIBDIRS =
 EXTMEMOPTS =
 
 
-
 #---------------- Linker Options ----------------
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
@@ -240,7 +242,6 @@ LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #LDFLAGS += -T linker_script.x
-
 
 
 #---------------- Programming Options (avrdude) ----------------
@@ -278,7 +279,6 @@ AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
 
 
-
 #---------------- Debugging Options ----------------
 
 # For simulavr only - target MCU frequency.
@@ -305,7 +305,6 @@ DEBUG_PORT = 4242
 #     just set to localhost unless doing some sort of crazy debugging when 
 #     avarice is running on a different computer.
 DEBUG_HOST = localhost
-
 
 
 #============================================================================
@@ -347,14 +346,11 @@ MSG_CLEANING = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
 
 
-
-
 # Define all object files.
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o) $(CPPSRC:%.cpp=$(OBJDIR)/%.o) $(ASRC:%.S=$(OBJDIR)/%.o) 
 
 # Define all listing files.
 LST = $(SRC:%.c=$(OBJDIR)/%.lst) $(CPPSRC:%.cpp=$(OBJDIR)/%.lst) $(ASRC:%.S=$(OBJDIR)/%.lst) 
-
 
 # Compiler flags to generate dependency files.
 GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
@@ -365,9 +361,6 @@ GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
-
-
-
 
 
 # Default target.
@@ -385,7 +378,6 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 LIBNAME=lib$(TARGET).a
 lib: $(LIBNAME)
-
 
 
 # Eye candy.
@@ -414,16 +406,14 @@ sizeafter:
 	2>/dev/null; echo; fi
 
 
-
 # Display compiler version information.
 gccversion : 
 	@$(CC) --version
 
 
-
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+	teensy_loader_cli --mcu=$(MCU) -v -w $(TARGET).hex
 
 
 # Generate avr-gdb config/init file which does the following:
@@ -498,7 +488,6 @@ extcoff: $(TARGET).elf
 	@echo
 	@echo $(MSG_SYMBOL_TABLE) $@
 	$(NM) -n $< > $@
-
 
 
 # Create library from object files.
